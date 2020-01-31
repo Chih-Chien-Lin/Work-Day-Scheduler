@@ -30,9 +30,91 @@
     </header>
     <div class="container">
       <!-- Timeblocks go here -->
+      <!-- <button>click me</button> -->
+
+
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-  </body>
+    
+    <script type="text/javascript">
+      var totalHours = 9;
+      var hr = 0;
+      var track = 0;
+      var day = moment().format('MMMM Do YYYY');
+        $("#currentDay").text(day);
+      var hour = moment().format('H');
+      // function createRows(){
+        for (var i = 0; i < totalHours ; i++){
+          var cRow = $("<div>");
+          var time = $("<div>");
+          var textArea = $("<textarea>");
+          var button = $("<button>");
+          cRow.addClass("row")
+          time.addClass("col-md-2 time-block")
+          hr = totalHours + i;
+          track = totalHours+i;
+          if( hr <12 ){
+            var day = "am"
+          }else if(hr == 12){
+            var day = "pm"
+          }else{
+            var day = "pm"
+            hr = hr - 12;
+          }
+          // cRow.attr("id",track);
+          // console.log("day time: "+hr+" "+day);
+          time.text(hr+" "+day);
+          textArea.addClass("textarea col-md-9");
+          textArea.attr("placeholder","here to text");
+          if( track == hour){
+            textArea.addClass("present")
+          }else if(track < hour){
+            textArea.addClass("past")
+          }else{
+            textArea.addClass("future")
+          }
+          textArea.attr("value",track);
+          textArea.attr("id",track);
+          var memoStorage = JSON.parse(localStorage.getItem("memo"+track));
+          textArea.text(memoStorage);
+          button.addClass("saveBtn col-md-1 i:hover")
+          button.attr("index",track);
+          button.text("save");
+          $(".container").append(cRow);
+          $(cRow).append(time, textArea, button)
+        }
+
+        $(".saveBtn").on("click",function(){
+          
+            var temp = $(this).attr("index");
+            localStorage.removeItem("memo"+temp);
+            var memo = document.getElementById(temp).value;
+            // var temp = text($(temp).text());
+            console.log("memo: "+memo);
+            typeof(memo);
+            var memoStorage = JSON.parse(localStorage.getItem("memo"+temp));
+            if (memoStorage !== null){
+                var newStr = memoStorage += memo;
+                memoStorage = newStr;
+            }else{
+              memoStorage = memo;
+            }
+            
+            localStorage.setItem("memo"+temp,JSON.stringify(memoStorage));
+  
+            
+        })
+        // var memo = document.getElementById(0).val;
+        // console.log("memo: "+memo);
+
+
+
+      // }
+
+    </script>
+  
+</body>
 </html>
