@@ -90,7 +90,9 @@
         $(".saveBtn").on("click",function(){
           
             var temp = $(this).attr("index");
+            // var memo = $(temp).text();
             localStorage.removeItem("memo"+temp);
+            
             var memo = document.getElementById(temp).value;
             // var temp = text($(temp).text());
             console.log("memo: "+memo);
@@ -100,7 +102,7 @@
                 var newStr = memoStorage += memo;
                 memoStorage = newStr;
             }else{
-              memoStorage = memo;
+              memoStorage = memo; 
             }
             
             localStorage.setItem("memo"+temp,JSON.stringify(memoStorage));
